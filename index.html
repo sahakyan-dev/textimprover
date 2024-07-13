@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Text Improver - best AI assistent for writing e-mails</title>
+</head>
+<body>
+<!--<input type="text">
+<br>
+<textarea name="" id="" cols="30" rows="10"></textarea>
+<br>
+<div contenteditable="true" style="border: 1px solid black;height: 150px;width:80%;padding: 10px"></div>
+<br>
+<p>
+  Productivity Highlighter for any Website or PDF. Free and easy to use without signing up.
+
+  Stay organized on the internet with Web Highlights, the must-have productivity tool for students, bloggers, programmers, and avid online readers.
+
+  Highlight websites, take notes, and save websites as bookmarks. Choose between offline mode or seamless sync with our web app at web-highlights.com. Enjoy efficient access to your research, highlights, notes, and bookmarks with tags and full-text search. Receive email reminders, daily highlights, and easily export to Notion, Obsidian, and more for enhanced learning and productivity.
+</p>-->
+
+
+<h1>GeeksforGeeks</h1>
+
+
+<p>Range Content</p>
+
+
+<button onclick="insert()">
+  Click Here to insert the Node
+</button>
+
+<div id="element">
+  <p>bla</p>Node element
+  <p>bla2</p>Node element
+  <p>bla23</p>Node element </div>
+
+
+<script>
+  var range = document.createRange();
+  range.selectNode(document
+          .getElementsByTagName("p").item(0));
+
+  const element = document
+          .getElementById('element');
+
+  console.log("Before Button Click:",
+          range.toString());
+
+  function insert() {
+    range.insertNode(element);
+    console.log("After  Button Click:",
+            range.toString());
+  }
+</script>
+</body>
+</html>

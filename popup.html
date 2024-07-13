@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Text Improver - best AI assistent for writing e-mails and texts</title>
+  <style>
+    body {
+      width: 200px;
+      font-family: Arial, sans-serif;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+<h2 style="display: flex; align-items: center; gap: 12px">
+  <img src="logo/logo48.png" alt="">
+  AI Text Improver</h2>
+<h3>All your texts will be perfect from now on!</h3>
+<p>Select text in any language, click the button, get improved version from AI.</p>
+<h4>Select Options</h4>
+<p>You can choose one of two behaviours after clicking the button.</p>
+<form id="optionsForm">
+  <input type="radio" id="option1" name="option" value="replace" checked>
+  <label for="option1">Replace the selected text with the improved text</label><br><br>
+  <input type="radio" id="option2" name="option" value="add">
+  <label for="option2">Add the improved text before the selected text</label><br><br>
+</form>
+<button id="close">Close</button>
+
+<script src="popup.js"></script>
+</body>
+</html>

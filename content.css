@@ -1,0 +1,19 @@
+#improveButton {
+    display: none;
+    position: absolute;
+    z-Index: 9999;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#improveButton:hover {
+    background-color: #45a049;
+}
+
+#improveButton:focus {
+    outline: none;
+}
