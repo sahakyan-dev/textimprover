@@ -3,6 +3,7 @@ let button = null;
 let activeElement = null;
 let selection = {}
 let selectedText = null;
+const isAtlassian = window.location.host.includes('atlassian.net')
 
 // Function to load saved option
 function loadSavedOption() {
@@ -97,7 +98,9 @@ const handleSelection = () => {
   }
   activeElement = document.activeElement;
   // console.log('activeElement', activeElement)
-  if (activeElement.isContentEditable || (activeElement.tagName == 'INPUT' && activeElement.type === 'text') || activeElement.tagName == 'TEXTAREA') {
+  if (isAtlassian) {
+    // console.log(document.querySelectorAll('[data-testid="selection-marker-selection"]'))
+  } else if (activeElement.isContentEditable || (activeElement.tagName == 'INPUT' && activeElement.type === 'text') || activeElement.tagName == 'TEXTAREA') {
     // console.log('activeElement', window.getSelection().getRangeAt(0).toString())
     selection = window.getSelection();
     // console.log('selection', selection)
@@ -146,7 +149,12 @@ createButton = (targetElement) => {
         return;
 
       button.style.display = 'none';
-      const isInputOrTextarea = typeof activeElement.setSelectionRange === 'function'
+      let isInputOrTextarea;
+      if (!isAtlassian) {
+        isInputOrTextarea = typeof activeElement.setSelectionRange === 'function'
+      } else {
+        isInputOrTextarea = true
+      }
       // fetch("http://localhost:1337/api/improve-text", {
       fetch("https://math-arm-app.herokuapp.com/api/improve-text", {
         method: "POST",
@@ -161,7 +169,9 @@ createButton = (targetElement) => {
       .then((response) => response.json())
       .then((json) => {
         selectedOption ?? 'replace';
-        if (isInputOrTextarea) {
+        if (isAtlassian) {
+          document.querySelector('[data-testid="selection-marker-selection"]').textContent = json.text;
+        } else if (isInputOrTextarea) {
           const lastSelectionStart = activeElement.selectionStart;
           const lastSelectionEnd = activeElement.selectionEnd;
           if (selectedOption === 'replace') {
@@ -191,3 +201,37 @@ createButton = (targetElement) => {
   }
 }
 createButton()
+
+if (isAtlassian) {
+  // Callback function to execute when mutations are observed
+  const observerCallback = (mutationsList, observer) => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === 'childList') {
+        // Check added nodes for your specific data-testid attribute
+        mutation.addedNodes.forEach(node => {
+          if (node.nodeType === Node.ELEMENT_NODE && node.getAttribute('data-testid') === 'selection-marker-selection') {
+            // Your logic here when an element with the specific data-testid is added
+            activeElement = node;
+            selectedText = node.textContent;
+            buttonPositioning(node)
+          }
+        });
+      }
+    }
+  };
+
+  // Create an observer instance linked to the callback function
+  const observer = new MutationObserver(observerCallback);
+
+  // Options for the observer (which mutations to observe)
+  const observerOptions = {
+    childList: true, // Look for additions or removals of child elements
+    subtree: true,   // Observe all descendants, not just direct children
+  };
+
+  // Select the node to observe (usually the document body or a specific container)
+  const targetNode = document.body;
+
+  // Start observing the target node for configured mutations
+  observer.observe(targetNode, observerOptions);
+}
